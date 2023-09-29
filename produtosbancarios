@@ -1,0 +1,66 @@
+// Interface Tributavel
+public interface Tributavel {
+    double calculaTributos();
+}
+
+// Classe Conta
+public class Conta {
+    private double saldo;
+
+    public void sacar(double valor) {
+        saldo -= valor;
+    }
+
+    public void depositar(double valor) {
+        saldo += valor;
+    }
+
+    public double obterSaldo() {
+        return saldo;
+    }
+}
+
+// Classe ContaPoupanca
+public class ContaPoupanca extends Conta implements Tributavel {
+    @Override
+    public double calculaTributos() {
+        return 0;
+    }
+}
+
+// Classe ContaCorrente
+public class ContaCorrente extends Conta implements Tributavel {
+    @Override
+    public double calculaTributos() {
+        return getSaldo() * 0.01;
+    }
+}
+
+// Classe SeguroDeVida
+public class SeguroDeVida implements Tributavel {
+    @Override
+    public double calculaTributos() {
+        return 42.0;
+    }
+}
+
+// Classe TestaTributavel
+public class TestaTributavel {
+    public static void main(String[] args) {
+        ContaPoupanca contaPoupanca = new ContaPoupanca();
+        contaPoupanca.depositar(1000);
+
+        ContaCorrente contaCorrente = new ContaCorrente();
+        contaCorrente.depositar(2000);
+
+        SeguroDeVida seguroDeVida = new SeguroDeVida();
+
+        double tributosContaPoupanca = contaPoupanca.calculaTributos();
+        double tributosContaCorrente = contaCorrente.calculaTributos();
+        double tributosSeguroDeVida = seguroDeVida.calculaTributos();
+
+        System.out.println("Tributos da Conta Poupança: R$" + tributosContaPoupanca);
+        System.out.println("Tributos da Conta Corrente: R$" + tributosContaCorrente);
+        System.out.println("Tributos do Seguro de Vida: R$" + tributosSeguroDeVida);
+    }
+}
